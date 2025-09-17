@@ -1,4 +1,4 @@
-specVersion: 1.0.0
+specVersion: 1.2.0
 indexerHints:
   prune: auto
 schema:
@@ -6,21 +6,27 @@ schema:
 dataSources:
   - kind: ethereum
     name: BTCn
-    network: neura
+    network: mainnet
     source:
-      abi: BTCn
       address: "0xA343bC78210BDB5ebf9DbCeE57DCaf0C1066ff2A"
+      abi: BTCn
       startBlock: 8823550
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.7
+      apiVersion: 0.0.9
       language: wasm/assemblyscript
       entities:
         - Approval
         - OwnershipTransferred
         - Transfer
       abis:
-        - name: PositionManager
+        - name: BTCn
           file: ./abis/BTCn.json
       eventHandlers:
-      file: ./src/btcn.ts
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/bt-cn.ts
