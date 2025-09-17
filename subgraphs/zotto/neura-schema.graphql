@@ -1,0 +1,73 @@
+type Approval @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  approved: Bytes! # address
+  tokenId: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ApprovalForAll @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  operator: Bytes! # address
+  approved: Boolean! # bool
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Collect @entity(immutable: true) {
+  id: Bytes!
+  tokenId: BigInt! # uint256
+  recipient: Bytes! # address
+  amount0: BigInt! # uint256
+  amount1: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type IncreaseLiquidity @entity(immutable: true) {
+  id: Bytes!
+  tokenId: BigInt! # uint256
+  liquidityDesired: BigInt! # uint128
+  actualLiquidity: BigInt! # uint128
+  amount0: BigInt! # uint256
+  amount1: BigInt! # uint256
+  pool: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type DecreaseLiquidity @entity(immutable: true) {
+  id: Bytes!
+  tokenId: BigInt! # uint256
+  liquidity: BigInt! # uint128
+  amount0: BigInt! # uint256
+  amount1: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+# Optional: Add a Position entity to track position state
+type Position @entity {
+  id: Bytes! # tokenId
+  tokenId: BigInt!
+  owner: Bytes!
+  pool: Bytes!
+  tickLower: Int!
+  tickUpper: Int!
+  liquidity: BigInt!
+  feeGrowthInside0LastX128: BigInt!
+  feeGrowthInside1LastX128: BigInt!
+  tokensOwed0: BigInt!
+  tokensOwed1: BigInt!
+  createdAtBlockNumber: BigInt!
+  createdAtTimestamp: BigInt!
+  lastUpdatedBlockNumber: BigInt!
+  lastUpdatedTimestamp: BigInt!
+}
