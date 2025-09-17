@@ -1,0 +1,50 @@
+{
+  "base-sepolia": {
+    "EthBscBridge": {
+      "address": "0x2387060B5191038F9D1476936B804E7B4c6BeDC3",
+      "startBlock": 23903397
+    }
+  },
+  "sepolia-dev": {
+    "EthBscBridge": {
+      "address": "0x467556e4D1E55451D09bc577e5FA528aE034c13D",
+      "startBlock": 8467263
+    }
+  },
+  "sepolia-test": {
+    "EthBscBridge": {
+      "address": "0xc6255a594299F1776de376d0509aB5ab875A6E3E",
+      "startBlock": 8467263
+    }
+  },
+  "holesky": {
+    "EthBscBridge": {
+      "address": "0xe367a0fc9a7979a084708592ed2c71F58cfda2D6",
+      "startBlock": 3761188
+    }
+  },
+  "chapel": {
+    "EthBscBridge": {
+      "address": "0x63b8B1cCFEa845e078eED4afd1906DA202ba74b0",
+      "startBlock": 49597698
+    }
+  },
+  "mainnet": {
+    "EthBscBridge": {
+      "address": "0x96c479E2C533826d42780511683a68E5e3f2Ee62",
+      "startBlock": 0
+    }
+  },
+  "bsc": {
+    "EthBscBridge": {
+      "address": "0x96c479E2C533826d42780511683a68E5e3f2Ee62",
+      "startBlock": 0
+    }
+  },
+  "neura": {
+    "NeuraBridge": {
+      "address": "0xc6255a594299F1776de376d0509aB5ab875A6E3E",
+      "startBlock": 1309481
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "test",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen --output-dir generated/eth-bsc subgraph-eth.yaml && graph codegen --output-dir generated/eth-bsc subgraph-bsc.yaml && graph codegen --output-dir generated/neura subgraph-neura.yaml",
+    "build-devnet-eth": "graph build subgraph-eth.yaml --network sepolia-dev",
+    "build-testnet-eth": "graph build subgraph-eth.yaml --network sepolia-test",
+    "build-bsc": "graph build subgraph-bsc.yaml --network chapel",
+    "build-neura": "graph build subgraph-neura.yaml --network neura",
+    "build-all": "yarn build-devnet-eth && yarn build-testnet-eth && yarn build-bsc && yarn build-neura",
+    "create-devnet-eth": "graph create --node https://deploy-devnet-graph-eth.infra.neuraprotocol.io/ test-eth",
+    "create-testnet-eth": "graph create --node https://deploy-testnet-graph-eth.infra.neuraprotocol.io/ test-eth",
+    "create-bsc": "graph create --node https://deploy-testnet-graph-bsc.infra.neuraprotocol.io/ test-bsc",
+    "create-testnet-neura": "graph create --node https://deploy-testnet-graph-neura.infra.neuraprotocol.io/ test-neura",
+    "create-devnet-neura": "graph create --node https://deploy-devnet-graph-neura.infra.neuraprotocol.io/ test-neura",
+    "create-all": "yarn create-devnet-eth && yarn create-testnet-eth && yarn create-bsc && yarn create-testnet-neura && yarn create-devnet-neura",
+    "create-local-eth": "graph create --node http://localhost:8020/ test-eth",
+    "create-local-bsc": "graph create --node http://localhost:9020/ test-bsc",
+    "create-local-neura": "graph create --node http://localhost:10020/ test-neura",
+    "create-local-all": "yarn create-local-eth && yarn create-local-bsc && yarn create-local-neura",
+    "remove-local-eth": "graph remove --node http://localhost:8020/ test-eth",
+    "remove-local-bsc": "graph remove --node http://localhost:9020/ test-bsc",
+    "remove-local-neura": "graph remove --node http://localhost:10020/ test-neura",
+    "remove-local-all": "yarn remove-local-eth && yarn remove-local-bsc && yarn remove-local-neura",
+    "remove-devnet-eth": "graph remove --node https://deploy-devnet-graph-eth.infra.neuraprotocol.io/ test-eth",
+    "remove-testnet-eth": "graph remove --node https://deploy-testnet-graph-eth.infra.neuraprotocol.io/ test-eth",
+    "remove-bsc": "graph remove --node https://deploy-testnet-graph-bsc.infra.neuraprotocol.io/ test-bsc",
+    "remove-devnet-neura": "graph remove --node https://deploy-devnet-graph-neura.infra.neuraprotocol.io/ test-neura",
+    "remove-testnet-neura": "graph remove --node https://deploy-testnet-graph-neura.infra.neuraprotocol.io/ test-neura",
+    "remove-all": "yarn remove-devnet-eth && yarn remove-testnet-eth && yarn remove-bsc && yarn remove-devnet-neura && yarn remove-testnet-neura",
+    "deploy-local-devnet-eth": "graph deploy --network sepolia-dev --node http://localhost:8020/ --ipfs http://localhost:5001 test-eth subgraph-eth.yaml",
+    "deploy-local-testnet-eth": "graph deploy --network sepolia-test --node http://localhost:8020/ --ipfs http://localhost:5001 test-eth subgraph-eth.yaml",
+    "deploy-local-bsc": "graph deploy --network chapel --node http://localhost:9020/ --ipfs http://localhost:5001 test-bsc subgraph-bsc.yaml",
+    "deploy-local-neura": "graph deploy --network neura --node http://localhost:10020/ --ipfs http://localhost:5001 test-neura subgraph-neura.yaml",
+    "deploy-local-all": "yarn deploy-local-devnet-eth && yarn deploy-local-testnet-eth && yarn deploy-local-bsc && yarn deploy-local-neura",
+    "deploy-devnet-eth": "graph deploy --network sepolia-dev --node https://deploy-devnet-graph-eth.infra.neuraprotocol.io/ --ipfs https://ipfs-cluster-devnet-graph-eth.infra.neuraprotocol.io/ test-eth subgraph-eth.yaml",
+    "deploy-testnet-eth": "graph deploy --network sepolia-test --node https://deploy-testnet-graph-eth.infra.neuraprotocol.io/ --ipfs https://ipfs-testnet-graph-eth.infra.neuraprotocol.io test-eth subgraph-eth.yaml",
+    "deploy-bsc": "graph deploy --network chapel --node https://deploy-testnet-graph-bsc.infra.neuraprotocol.io/ --ipfs https://ipfs-testnet-graph-bsc.infra.neuraprotocol.io test-bsc subgraph-bsc.yaml",
+    "deploy-devnet-neura": "graph deploy --network neura --node https://deploy-devnet-graph-neura.infra.neuraprotocol.io/ --ipfs https://ipfs-cluster-devnet-graph-neura.infra.neuraprotocol.io test-neura subgraph-neura.yaml",
+    "deploy-testnet-neura": "graph deploy --network neura --node https://deploy-testnet-graph-neura.infra.neuraprotocol.io/ --ipfs https://ipfs-testnet-graph-neura.infra.neuraprotocol.io test-neura subgraph-neura.yaml",
+    "deploy-all": "yarn deploy-devnet-eth && yarn deploy-testnet-eth && yarn deploy-bsc && yarn deploy-devnet-neura && yarn deploy-testnet-neura",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.87.0",
+    "@graphprotocol/graph-ts": "0.32.0"
+  },
+  "devDependencies": {
+    "matchstick-as": "0.5.0"
+  }
+}

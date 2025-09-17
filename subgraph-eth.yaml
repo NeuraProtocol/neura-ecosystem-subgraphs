@@ -1,0 +1,53 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./eth-bsc-schema.graphql
+dataSources:
+  - kind: ethereum
+    name: EthBscBridge
+    network: sepolia-test
+    source:
+      abi: EthBscBridge
+      address: "0xc6255a594299F1776de376d0509aB5ab875A6E3E"
+      startBlock: 8467263
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Initialized
+        - Paused
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - TokensDeposited
+        - TokensClaimed
+        - Unpaused
+        - ValidatorThresholdUpdated
+        - ValidatorUpdated
+      abis:
+        - name: EthBscBridge
+          file: ./abis/EthBscBridge.json
+      eventHandlers:
+        - event: Initialized(uint64)
+          handler: handleInitialized
+        - event: Paused(address)
+          handler: handlePaused
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: TokensDeposited(indexed address,indexed address,uint256,uint256,uint256)
+          handler: handleTokensDeposited
+        - event: TokensClaimed(indexed address,uint256,indexed uint256)
+          handler: handleTokensClaimed
+        - event: Unpaused(address)
+          handler: handleUnpaused
+        - event: ValidatorThresholdUpdated(uint256)
+          handler: handleValidatorThresholdUpdated
+        - event: ValidatorUpdated(indexed address,bool)
+          handler: handleValidatorUpdated
+      file: ./src/eth-bsc-bridge.ts

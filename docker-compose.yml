@@ -1,0 +1,86 @@
+version: "3"
+services:
+  graph-node-1:
+    image: graphprotocol/graph-node
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8020:8020"
+      - "8030:8030"
+      - "8040:8040"
+    depends_on:
+      - ipfs
+      - postgres
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    environment:
+      postgres_host: postgres
+      postgres_user: graph-node
+      postgres_pass: let-me-in
+      postgres_db: graph-node
+      ipfs: "ipfs:5001"
+      ethereum: "${ETH_NETWORK}:${ETH_RPC_URL}"
+      GRAPH_LOG: info
+  graph-node-2:
+    image: graphprotocol/graph-node
+    ports:
+      - "9000:8000"
+      - "9001:8001"
+      - "9020:8020"
+      - "9030:8030"
+      - "9040:8040"
+    depends_on:
+      - ipfs
+      - postgres
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    environment:
+      postgres_host: postgres
+      postgres_user: graph-node
+      postgres_pass: let-me-in
+      postgres_db: graph-node
+      ipfs: "ipfs:5001"
+      ethereum: "${BSC_NETWORK}:${BSC_RPC_URL}"
+      GRAPH_LOG: info
+  graph-node-3:
+    image: graphprotocol/graph-node
+    ports:
+      - "10000:8000"
+      - "10001:8001"
+      - "10020:8020"
+      - "10030:8030"
+      - "10040:8040"
+    depends_on:
+      - ipfs
+      - postgres
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    environment:
+      postgres_host: postgres
+      postgres_user: graph-node
+      postgres_pass: let-me-in
+      postgres_db: graph-node
+      ipfs: "ipfs:5001"
+      ethereum: "${NEURA_NETWORK}:${NEURA_RPC_URL}"
+      GRAPH_LOG: info
+  ipfs:
+    image: ipfs/kubo:v0.17.0
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./data/ipfs:/data/ipfs
+  postgres:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    command:
+      - "postgres"
+      - "-cshared_preload_libraries=pg_stat_statements"
+      - "-cmax_connections=200"
+    environment:
+      POSTGRES_USER: graph-node
+      POSTGRES_PASSWORD: let-me-in
+      POSTGRES_DB: graph-node
+      POSTGRES_INITDB_ARGS: "--lc-collate=C --lc-ctype=C --encoding=UTF8"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data

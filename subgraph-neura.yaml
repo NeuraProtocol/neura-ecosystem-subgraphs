@@ -1,0 +1,46 @@
+specVersion: 0.0.5
+schema:
+  file: ./neura-schema.graphql
+dataSources:
+  - kind: ethereum
+    name: NeuraBridge
+    network: neura
+    source:
+      abi: NeuraBridge
+      address: "0xc6255a594299F1776de376d0509aB5ab875A6E3E"
+      startBlock: 1309481
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Initialized
+        - Paused
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - TokensDeposited
+        - Unpaused
+        - BridgeTransferApproved
+      abis:
+        - name: NeuraBridge
+          file: ./abis/NeuraBridge.json
+      eventHandlers:
+        - event: Initialized(uint64)
+          handler: handleInitialized
+        - event: Paused(address)
+          handler: handlePaused
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: TokensDeposited(uint256,indexed address,uint256,indexed uint256,uint256)
+          handler: handleTokensDeposited
+        - event: Unpaused(address)
+          handler: handleUnpaused
+        - event: BridgeTransferApproved(indexed bytes32,uint256,indexed
+            address,uint256,indexed uint256,uint256)
+          handler: handleBridgeTransferApproved
+      file: ./src/neura-bridge.ts
