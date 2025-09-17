@@ -1,0 +1,26 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: BTCn
+    network: neura
+    source:
+      abi: BTCn
+      address: "0xA343bC78210BDB5ebf9DbCeE57DCaf0C1066ff2A"
+      startBlock: 8823550
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - OwnershipTransferred
+        - Transfer
+      abis:
+        - name: PositionManager
+          file: ./abis/BTCn.json
+      eventHandlers:
+      file: ./src/btcn.ts
