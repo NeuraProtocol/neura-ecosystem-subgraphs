@@ -1,4 +1,4 @@
-specVersion: 1.2.0
+specVersion: 1.3.0
 indexerHints:
   prune: auto
 schema:
@@ -6,7 +6,7 @@ schema:
 dataSources:
   - kind: ethereum
     name: BTCn
-    network: neura
+    network: mainnet
     source:
       address: "0xA343bC78210BDB5ebf9DbCeE57DCaf0C1066ff2A"
       abi: BTCn
@@ -23,4 +23,10 @@ dataSources:
         - name: BTCn
           file: ./abis/BTCn.json
       eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
       file: ./src/bt-cn.ts
