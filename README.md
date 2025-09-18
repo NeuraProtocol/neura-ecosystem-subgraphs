@@ -1,120 +1,65 @@
-# Multi-Network Subgraph Deployment Guide
+# Subgraph Initialization Guide
 
-This guide explains how to set up and deploy subgraphs to multiple networks using The Graph Node.
-
-## Table of Contents
-- [Prerequisites](#prerequisites)
-- [Running the Infrastructure](#running-the-infrastructure)
-- [Deploying Subgraphs](#deploying-subgraphs)
-- [Troubleshooting](#troubleshooting)
+This guide provides step-by-step instructions for initializing and deploying a subgraph in the Neura ecosystem.
 
 ## Prerequisites
 
-- Docker and Docker Compose
-- Node.js (v16 or later)
-- Yarn package manager
-- RPC URLs
+Before starting, ensure you have the following installed:
 
-## Running the Infrastructure
+- **Node.js** (v18 or later)
+- **Yarn**
+- **npm**
+- **Graph CLI**: Install globally with `npm install -g @graphprotocol/graph-cli`
+- **Git** for version control
 
-1. Initialize the project:
-```bash
-yarn install
-```
+## Step 1: Project Setup
 
-2. Generate types and build subgraphs:
-```bash
-# Generate types from contract ABIs
-yarn codegen
-
-# Build both subgraphs
-yarn build
-```
-
-3. Start the infrastructure:
-```bash
-# Clean up any existing data
-docker-compose down -v
-rm -rf ./data/ipfs ./data/postgres
-
-# Start services
-docker-compose up -d
-```
-
-4. Check service status:
-```bash
-docker-compose ps
-docker-compose logs -f
-```
-
-## Deploying Subgraphs
+### 1.1 Initialize the Project Directory from ROOT
 
 ```bash
-# Create and deploy
-yarn create-local-all
-yarn deploy-local-all
+mkdir -p subgraphs/app-name/abis
+cd subgraphs/app-name
 ```
 
-## Accessing the Subgraphs
+## Step 2: Add Contract ABI
 
-- Ethereum Subgraph: http://localhost:8000/subgraphs/name/test-eth
-- BSC Subgraph: http://localhost:9000/subgraphs/name/test-bsc
+### 2.1 Obtain Contract ABI
 
-## Troubleshooting
+Get the ABI file for your smart contract and place it in the `abis/` directory.
 
-### Common Issues
+Example: `abis/MyContract.json`
 
-#### Database Connection Errors
-```bash
-docker-compose down -v
-rm -rf ./data/postgres
-docker-compose up
+### 2.2 Verify ABI Format
+
+Ensure your ABI is a valid JSON array containing the contract's interface definitions.
+
+## Step 3: init graph
+
+```
+graph init --skip-git --skip-install  --protocol=ethereum
 ```
 
-#### Port Conflicts
-```bash
-# Check for running containers
-docker ps
+### 3.1 Answers to CLI tool
 
-# Stop conflicting containers
-docker-compose down
-```
-
-#### Network Resolution Errors
-- Verify RPC URLs in .env file
-- Check network names in subgraph.yaml match docker-compose.yml
-
-### Useful Commands
-```bash
-# View logs
-docker-compose logs -f
-
-# Restart services
-docker-compose restart
-
-# Clean start
-docker-compose down -v
-rm -rf ./data
-docker-compose up -d
-```
-
-## Notes
-
-- Each Graph Node runs on different ports to avoid conflicts:
-  - Ethereum: 8xxx ports
-  - BSC: 9xxx ports
-- Both nodes share the same IPFS and Postgres instances
-- Remember to replace placeholder API keys in .env file
-- Set appropriate start block numbers in subgraph.yaml
-
-## Contributing
-
-Feel free to submit issues and enhancement requests!
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-For more information, visit [The Graph Documentation](https://thegraph.com/docs/en/).
+- Network > Ethereum Mainnet
+- Source > Smart contract
+- slug: graph endpoint -> For example > my-contract
+- Directory to create the subgraph in > .
+- Contract address > 0xBd833b6eCC30CAEaBf81dB18BB0f1e00C6997E7a
+- Fetching ABI from Sourcify API... Must fail
+- Do you want to retry > n
+- Failed to fetch start block: Failed to fetch contract deployment transaction .. Must fail
+- Do you want to retry> n
+- Failed to fetch contract name: Name not found
+- Do you want to retry> n
+- ABI file (path) > ./abis/MyContract.json
+- Start block > 4448873
+- Contract name > MyContract
+- Index contract events as entities > true
+- Directory already exists, do you want to initialize the subgraph here (files will be overwritten) ? > y
+- Generate subgraph
+  Write subgraph to directory
+  ✔ Create subgraph scaffold
+  ✔ Initialize networks config
+  ✔ Generate ABI and schema types with yarn codegen
+- Add another contract? > y/n
