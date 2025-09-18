@@ -27,7 +27,7 @@ cd subgraphs/app-name
 
 Get the ABI file for your smart contract and place it in the `abis/` directory.
 
-Example: `abis/MyContract.json`
+Example: `subgraphs/app-name/abis/MyContract.json`
 
 ### 2.2 Verify ABI Format
 
@@ -36,7 +36,7 @@ Ensure your ABI is a valid JSON array containing the contract's interface defini
 ## Step 3: init graph
 
 ```
-graph init --skip-git --skip-install  --protocol=ethereum
+graph init --skip-git --protocol=ethereum
 ```
 
 ### 3.1 Answers to CLI tool
@@ -63,3 +63,58 @@ graph init --skip-git --skip-install  --protocol=ethereum
   ✔ Initialize networks config
   ✔ Generate ABI and schema types with yarn codegen
 - Add another contract? > y/n
+
+## How to Run Locally
+
+### Single Subgraph (Recommended for Development)
+
+Navigate to your specific subgraph directory:
+
+```bash
+cd subgraphs/app-name
+```
+
+#### 1. Configure Network Connection
+
+Edit the `docker-compose.yml` file in your subgraph directory and update the Ethereum connection:
+
+```yaml
+environment:
+  # Replace with your RPC URL
+  ethereum: "mainnet:https://your-rpc-url-here"
+  # Or for other networks:
+  # ethereum: "sepolia:https://sepolia.infura.io/v3/YOUR-PROJECT-ID"
+  # ethereum: "neura:https://rpc.neuraprotocol.io"
+```
+
+#### 2. Start Local Graph Node
+
+```bash
+# Start the services (Graph Node, IPFS, PostgreSQL)
+docker-compose up -d
+
+# Check if services are running
+docker-compose ps
+```
+
+#### 3. Create and Deploy Subgraph
+
+```bash
+# Generate code from schema and ABI
+yarn codegen
+
+# Build the subgraph
+yarn build
+
+# Create the subgraph on your local node
+graph create --node http://localhost:8020/ app-name
+
+# Deploy the subgraph
+graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 app-name
+```
+
+#### 4. Access Your Subgraph
+
+- **GraphQL Playground**: http://localhost:8000/subgraphs/name/app-name
+- **Graph Node API**: http://localhost:8020/
+- **IPFS Gateway**: http://localhost:5001
