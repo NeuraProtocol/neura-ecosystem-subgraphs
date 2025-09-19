@@ -9,7 +9,7 @@ Before starting, ensure you have the following installed:
 - **Node.js** (v18 or later)
 - **Yarn**
 - **npm**
-- **Graph CLI**: Install globally with `npm install -g @graphprotocol/graph-cli`
+- **Graph CLI**: Install globally with `npm install -g @graphprotocol/graph-cli@0.87.0`
 - **Git** for version control
 
 ## Step 1: Project Setup
