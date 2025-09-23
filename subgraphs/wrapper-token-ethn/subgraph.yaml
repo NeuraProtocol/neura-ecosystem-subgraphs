@@ -1,0 +1,41 @@
+specVersion: 1.2.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: WrapperTokenOperations
+    network: neura
+    source:
+      address: "0xC2C711590205F932dFD9936AbdF085e9e6b0D570"
+      abi: WrapperTokenOperations
+      startBlock: 3999672
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Initialized
+        - LSTRatioApplied
+        - PriceDeviationThresholdSet
+        - Upgraded
+        - WrapperTokenMint
+        - WrapperTokenUnmint
+      abis:
+        - name: WrapperTokenOperations
+          file: ./abis/WrapperTokenOperations.json
+      eventHandlers:
+        - event: Initialized(uint64)
+          handler: handleInitialized
+        - event: LSTRatioApplied(indexed address,uint256,uint256)
+          handler: handleLSTRatioApplied
+        - event: PriceDeviationThresholdSet(indexed address,uint256)
+          handler: handlePriceDeviationThresholdSet
+        - event: Upgraded(indexed address)
+          handler: handleUpgraded
+        - event: WrapperTokenMint(indexed address,indexed address,uint256,uint256,bool,uint256,uint256)
+          handler: handleWrapperTokenMint
+        - event: WrapperTokenUnmint(indexed address,indexed address,uint256,uint256)
+          handler: handleWrapperTokenUnmint
+      file: ./src/wrapper-token-operations.ts
