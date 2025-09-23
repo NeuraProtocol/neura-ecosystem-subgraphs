@@ -2,6 +2,7 @@
   "name": "test",
   "license": "UNLICENSED",
   "scripts": {
+    "generate": "node cli-generate.js",
     "codegen": "graph codegen --output-dir generated/eth-bsc subgraph-eth.yaml && graph codegen --output-dir generated/eth-bsc subgraph-bsc.yaml && graph codegen --output-dir generated/neura subgraph-neura.yaml",
     "build-devnet-eth": "graph build subgraph-eth.yaml --network sepolia-dev",
     "build-testnet-eth": "graph build subgraph-eth.yaml --network sepolia-test",
