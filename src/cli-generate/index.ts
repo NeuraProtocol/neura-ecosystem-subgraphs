@@ -8,7 +8,14 @@ import { NetworkService } from "./services/network.service";
 import { AbiService } from "./services/abi.service";
 import { FileGenerationService } from "./services/file-generation.service";
 import { LoggerService } from "./services/logger.service";
-import { SubgraphConfig, BLOCK_EXPLORER_EXAMPLES } from "./types";
+import {
+  SubgraphConfig,
+  BLOCK_EXPLORER_EXAMPLES,
+  DEFAULT_BLOCK_EXPLORER_API,
+  DEFAULT_DEPLOY_NODE_URL,
+  DEFAULT_IPFS_URL,
+  DEFAULT_RPC_URL
+} from "./types";
 
 // Create logger instance
 const logger = new LoggerService();
@@ -55,8 +62,10 @@ async function getUserInputs(): Promise<SubgraphConfig> {
     process.exit(1);
   }
 
-  const rpcUrl = await question("🔗 RPC URL: ");
-  if (!ValidationService.isValidUrl(rpcUrl)) {
+  const rpcUrl = await question(`🔗 RPC URL (press Enter for default: ${DEFAULT_RPC_URL}): `);
+  const finalRpcUrl = rpcUrl.trim() || DEFAULT_RPC_URL;
+
+  if (!ValidationService.isValidUrl(finalRpcUrl)) {
     logger.error("Invalid RPC URL format");
     process.exit(1);
   }
@@ -74,9 +83,14 @@ async function getUserInputs(): Promise<SubgraphConfig> {
     logger.info(`  ${name}: ${url}`);
   });
 
-  const explorerApiUrl = await question("\n🌍 Block explorer API URL (press Enter to skip): ");
+  const explorerApiUrl = await question(
+    `\n🌍 Block explorer API URL (press Enter for default: ${DEFAULT_BLOCK_EXPLORER_API}): `
+  );
 
-  if (explorerApiUrl && !ValidationService.isValidUrl(explorerApiUrl)) {
+  // Use default if empty, otherwise validate the provided URL
+  const finalExplorerUrl = explorerApiUrl.trim() || DEFAULT_BLOCK_EXPLORER_API;
+
+  if (finalExplorerUrl && !ValidationService.isValidUrl(finalExplorerUrl)) {
     logger.error("Invalid block explorer API URL format");
     process.exit(1);
   }
@@ -91,13 +105,34 @@ async function getUserInputs(): Promise<SubgraphConfig> {
     }
   }
 
+  // Deploy endpoints
+  const deployNodeUrl = await question(
+    `\n🚀 Deploy node URL (press Enter for default: ${DEFAULT_DEPLOY_NODE_URL}): `
+  );
+  const finalDeployNodeUrl = deployNodeUrl.trim() || DEFAULT_DEPLOY_NODE_URL;
+
+  if (finalDeployNodeUrl && !ValidationService.isValidUrl(finalDeployNodeUrl)) {
+    logger.error("Invalid deploy node URL format");
+    process.exit(1);
+  }
+
+  const ipfsUrl = await question(`📦 IPFS URL (press Enter for default: ${DEFAULT_IPFS_URL}): `);
+  const finalIpfsUrl = ipfsUrl.trim() || DEFAULT_IPFS_URL;
+
+  if (finalIpfsUrl && !ValidationService.isValidUrl(finalIpfsUrl)) {
+    logger.error("Invalid IPFS URL format");
+    process.exit(1);
+  }
+
   return {
     appName: appName.trim(),
     networkName: networkName.trim(),
-    rpcUrl: rpcUrl.trim(),
+    rpcUrl: finalRpcUrl,
     contractAddress: contractAddress.trim(),
-    explorerApiUrl: explorerApiUrl.trim() || undefined,
-    startBlock
+    explorerApiUrl: finalExplorerUrl,
+    startBlock,
+    deployNodeUrl: finalDeployNodeUrl,
+    ipfsUrl: finalIpfsUrl
   };
 }
 
@@ -157,7 +192,9 @@ async function main(): Promise<void> {
       config.networkName,
       config.contractAddress,
       abi,
-      config.startBlock || 0
+      config.startBlock || 0,
+      config.deployNodeUrl!,
+      config.ipfsUrl!
     );
 
     logger.success(`✨ Subgraph '${config.appName}' generated successfully!`);
@@ -188,5 +225,9 @@ export {
   AbiService,
   FileGenerationService,
   LoggerService,
-  BLOCK_EXPLORER_EXAMPLES
+  BLOCK_EXPLORER_EXAMPLES,
+  DEFAULT_BLOCK_EXPLORER_API,
+  DEFAULT_DEPLOY_NODE_URL,
+  DEFAULT_IPFS_URL,
+  DEFAULT_RPC_URL
 };

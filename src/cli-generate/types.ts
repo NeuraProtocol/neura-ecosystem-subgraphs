@@ -58,6 +58,8 @@ export interface SubgraphConfig {
   rpcUrl: string;
   explorerApiUrl?: string;
   startBlock?: number;
+  deployNodeUrl?: string;
+  ipfsUrl?: string;
 }
 
 export interface BlockExplorerResponse {
@@ -90,5 +92,16 @@ export const BLOCK_EXPLORER_EXAMPLES = {
   PolygonScan: "https://api.polygonscan.com/api",
   Arbiscan: "https://api.arbiscan.io/api",
   BaseScan: "https://api.basescan.org/api",
-  "Snowtrace (Avalanche)": "https://api.snowtrace.io/api"
+  "Snowtrace (Avalanche)": "https://api.snowtrace.io/api",
+  "Neura-Testnet": "https://testnet-blockscout.infra.neuraprotocol.io/api"
 } as const;
+
+// Default RPC URL
+export const DEFAULT_RPC_URL = "https://testnet.rpc.neuraprotocol.io";
+
+// Default block explorer API URL
+export const DEFAULT_BLOCK_EXPLORER_API = "https://testnet-blockscout.infra.neuraprotocol.io/api";
+
+// Default deploy endpoints
+export const DEFAULT_DEPLOY_NODE_URL = "https://deploy-testnet-graph-neura.infra.neuraprotocol.io/";
+export const DEFAULT_IPFS_URL = "https://ipfs-testnet-graph-neura.infra.neuraprotocol.io";

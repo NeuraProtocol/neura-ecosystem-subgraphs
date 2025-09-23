@@ -5,16 +5,21 @@ import { ABI, ABIEvent, ABIInput, PackageJson, NetworksConfig, TSConfig, Logger 
 export class FileGenerationService {
   constructor(private logger: Logger) {}
 
-  generatePackageJson(appName: string, networkName: string): PackageJson {
+  generatePackageJson(
+    appName: string,
+    networkName: string,
+    deployNodeUrl: string,
+    ipfsUrl: string
+  ): PackageJson {
     return {
       name: appName.toLowerCase(),
       license: "UNLICENSED",
       scripts: {
         codegen: "graph codegen",
         build: "graph build",
-        create: `graph create --node https://deploy-testnet-graph-${networkName}.infra.neuraprotocol.io/ ${appName}`,
-        remove: `graph remove --node https://deploy-testnet-graph-${networkName}.infra.neuraprotocol.io/ ${appName}`,
-        deploy: `graph deploy --node https://deploy-testnet-graph-${networkName}.infra.neuraprotocol.io/ --ipfs https://ipfs-testnet-graph-${networkName}.infra.neuraprotocol.io ${appName}`
+        create: `graph create --node ${deployNodeUrl} ${appName}`,
+        remove: `graph remove --node ${deployNodeUrl} ${appName}`,
+        deploy: `graph deploy --node ${deployNodeUrl} --ipfs ${ipfsUrl} ${appName}`
       },
       dependencies: {
         "@graphprotocol/graph-cli": "0.97.1",
@@ -180,7 +185,9 @@ ${handlers}`;
     networkName: string,
     contractAddress: string,
     abi: ABI,
-    startBlock: number = 0
+    startBlock: number = 0,
+    deployNodeUrl: string,
+    ipfsUrl: string
   ): Promise<void> {
     const capitalizedName = appName.charAt(0).toUpperCase() + appName.slice(1);
     const contractName = capitalizedName + "Contract";
@@ -190,7 +197,7 @@ ${handlers}`;
     fs.mkdirSync(path.join(subgraphDir, "src"));
 
     // Generate and write package.json
-    const packageJson = this.generatePackageJson(appName, networkName);
+    const packageJson = this.generatePackageJson(appName, networkName, deployNodeUrl, ipfsUrl);
     fs.writeFileSync(path.join(subgraphDir, "package.json"), JSON.stringify(packageJson, null, 2));
 
     // Generate and write networks.json
