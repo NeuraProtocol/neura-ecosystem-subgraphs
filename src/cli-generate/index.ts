@@ -51,8 +51,10 @@ async function getUserInputs(): Promise<SubgraphConfig> {
   logger.info("Please provide the following information:\n");
 
   const appName = await question("📝 App name: ");
-  if (!ValidationService.isNotEmpty(appName)) {
-    logger.error("App name cannot be empty");
+  if (!ValidationService.isValidAppName(appName)) {
+    logger.error(
+      'Invalid app name. App name cannot contain special characters like: \\ < > : " | ? *. Forward slashes (/) are allowed for nested directories.'
+    );
     process.exit(1);
   }
 

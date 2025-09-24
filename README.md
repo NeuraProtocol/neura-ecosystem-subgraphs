@@ -36,7 +36,7 @@ The fastest way to create a subgraph is using our automated CLI tool that genera
 3. **Follow the interactive prompts:**
 
    ```
-   📝 App name: my-token
+   📝 App name: my-token (supports nested directories: org/project)
    🌐 Network name: neura
    🔗 RPC URL (press Enter for default: https://testnet.rpc.neuraprotocol.io):
    📋 Contract address: 0x1234567890123456789012345678901234567890
@@ -105,6 +105,7 @@ The fastest way to create a subgraph is using our automated CLI tool that genera
 - **⚡ Zero Configuration:** No manual file editing required
 - **🏠 Smart Defaults:** Uses Neura testnet RPC, block explorer, and deploy endpoints as defaults
 - **🚀 Configurable Deploy Endpoints:** Customize Graph Node and IPFS URLs for different environments
+- **📂 Nested Directory Support:** Use forward slashes in app names to create organized directory structures
 
 ### Supported Block Explorers
 
@@ -125,17 +126,34 @@ The CLI can automatically fetch ABIs from these block explorers:
 
 After running the CLI, your subgraph will have this structure:
 
+**Simple app name (`my-token`):**
+
 ```
-subgraphs/your-app-name/
+subgraphs/my-token/
 ├── package.json          # Dependencies and deployment scripts
 ├── subgraph.yaml         # Subgraph manifest with contract config
 ├── schema.graphql        # GraphQL schema with entity definitions
 ├── networks.json         # Network configuration
 ├── tsconfig.json         # TypeScript configuration
 ├── abis/
-│   └── YourContract.json # Contract ABI
+│   └── TokenContract.json # Contract ABI (uses last part of name)
 └── src/
-    └── your-app-name.ts  # Event handler mappings
+    └── my-token.ts       # Event handler mappings
+```
+
+**Nested app name (`fr-tn/usn`):**
+
+```
+subgraphs/fr-tn/usn/
+├── package.json          # Dependencies and deployment scripts
+├── subgraph.yaml         # Subgraph manifest with contract config
+├── schema.graphql        # GraphQL schema with entity definitions
+├── networks.json         # Network configuration
+├── tsconfig.json         # TypeScript configuration
+├── abis/
+│   └── UsnContract.json  # Contract ABI (uses "usn" from fr-tn/usn)
+└── src/
+    └── fr-tn-usn.ts      # Event handler mappings (/ replaced with -)
 ```
 
 Each generated file is ready to use without manual modifications, but you can customize them as needed.
@@ -281,6 +299,15 @@ graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 app-name
 ## 🛠️ Troubleshooting
 
 ### CLI Tool Issues
+
+**"Invalid app name. App name cannot contain special characters"**
+
+- App names cannot contain filesystem-reserved characters: `\ < > : " | ? *`
+- Forward slashes (`/`) are **allowed** for nested directories: `org/project`, `defi/lending`
+- Use hyphens or underscores for naming: `my-token`, `my_token`
+- Examples of valid names:
+  - Simple: `uniswap-v3`, `lending_protocol`, `nft-marketplace`
+  - Nested: `fr-tn/usn`, `defi/aave-v3`, `nft/opensea-seaport`
 
 **"Unable to fetch ABI from block explorer"**
 

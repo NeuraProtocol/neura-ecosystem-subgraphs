@@ -21,4 +21,10 @@ export class ValidationService {
   static isNotEmpty(value: string): boolean {
     return value.trim().length > 0;
   }
+
+  static isValidAppName(appName: string): boolean {
+    // Check for invalid filesystem characters (excluding forward slash for nested directories)
+    const invalidChars = /[\\<>:"|?*]/;
+    return !invalidChars.test(appName) && appName.trim().length > 0 && !appName.includes("//");
+  }
 }

@@ -35,7 +35,9 @@ export class FileGenerationService {
     contractAddress: string,
     startBlock: number = 0
   ): NetworksConfig {
-    const capitalizedName = appName.charAt(0).toUpperCase() + appName.slice(1);
+    // Use the last part of the path for contract name (e.g., "fr-tn/usn" -> "usn")
+    const lastPart = appName.split("/").pop() || appName;
+    const capitalizedName = lastPart.charAt(0).toUpperCase() + lastPart.slice(1);
     const contractName = capitalizedName + "Contract";
 
     return {
@@ -62,7 +64,9 @@ export class FileGenerationService {
     abi: ABI,
     startBlock: number = 0
   ): string {
-    const capitalizedName = appName.charAt(0).toUpperCase() + appName.slice(1);
+    // Use the last part of the path for contract name (e.g., "fr-tn/usn" -> "usn")
+    const lastPart = appName.split("/").pop() || appName;
+    const capitalizedName = lastPart.charAt(0).toUpperCase() + lastPart.slice(1);
     const contractName = capitalizedName + "Contract";
 
     const events = abi.filter((item) => item.type === "event") as ABIEvent[];
@@ -111,7 +115,7 @@ ${entities}
           file: ./abis/${contractName}.json
       eventHandlers:
 ${eventHandlers}
-      file: ./src/${appName.toLowerCase()}.ts`;
+      file: ./src/${appName.toLowerCase().replace(/\//g, "-")}.ts`;
   }
 
   generateSchemaGraphql(abi: ABI): string {
@@ -140,7 +144,9 @@ ${fields}
   }
 
   generateMappingFile(appName: string, abi: ABI): string {
-    const capitalizedName = appName.charAt(0).toUpperCase() + appName.slice(1);
+    // Use the last part of the path for contract name (e.g., "fr-tn/usn" -> "usn")
+    const lastPart = appName.split("/").pop() || appName;
+    const capitalizedName = lastPart.charAt(0).toUpperCase() + lastPart.slice(1);
     const contractName = capitalizedName + "Contract";
 
     const events = abi.filter((item) => item.type === "event") as ABIEvent[];
@@ -189,7 +195,9 @@ ${handlers}`;
     deployNodeUrl: string,
     ipfsUrl: string
   ): Promise<void> {
-    const capitalizedName = appName.charAt(0).toUpperCase() + appName.slice(1);
+    // Use the last part of the path for contract name (e.g., "fr-tn/usn" -> "usn")
+    const lastPart = appName.split("/").pop() || appName;
+    const capitalizedName = lastPart.charAt(0).toUpperCase() + lastPart.slice(1);
     const contractName = capitalizedName + "Contract";
 
     // Create directories
@@ -241,7 +249,8 @@ ${handlers}`;
 
     // Generate and write mapping file
     const mappingFile = this.generateMappingFile(appName, abi);
-    fs.writeFileSync(path.join(subgraphDir, "src", `${appName.toLowerCase()}.ts`), mappingFile);
+    const sanitizedFileName = appName.toLowerCase().replace(/\//g, "-");
+    fs.writeFileSync(path.join(subgraphDir, "src", `${sanitizedFileName}.ts`), mappingFile);
   }
 
   /**
