@@ -1,0 +1,59 @@
+type Initialized @entity(immutable: true) {
+  id: Bytes!
+  version: BigInt! # uint64
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type LSTRatioApplied @entity(immutable: true) {
+  id: Bytes!
+  yieldAsset: Bytes! # address
+  lstRatio: BigInt! # uint256
+  adjustedUSD: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PriceDeviationThresholdSet @entity(immutable: true) {
+  id: Bytes!
+  yieldAsset: Bytes! # address
+  threshold: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Upgraded @entity(immutable: true) {
+  id: Bytes!
+  implementation: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type WrapperTokenMint @entity(immutable: true) {
+  id: Bytes!
+  sender: Bytes! # address
+  yieldAsset: Bytes! # address
+  yieldAssetAmount: BigInt! # uint256
+  wrapperTokenAmount: BigInt! # uint256
+  isUnderlyingAsset: Boolean! # bool
+  yieldAssetUSD: BigInt! # uint256
+  wrapperTokenUSD: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type WrapperTokenUnmint @entity(immutable: true) {
+  id: Bytes!
+  sender: Bytes! # address
+  yieldAsset: Bytes! # address
+  wrapperTokenAmount: BigInt! # uint256
+  unmintAssetAmount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

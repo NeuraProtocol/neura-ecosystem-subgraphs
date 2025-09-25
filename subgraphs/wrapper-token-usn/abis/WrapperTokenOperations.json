@@ -1,0 +1,379 @@
+[
+  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "target", "type": "address" }
+    ],
+    "name": "AddressEmptyCode",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "implementation", "type": "address" }
+    ],
+    "name": "ERC1967InvalidImplementation",
+    "type": "error"
+  },
+  { "inputs": [], "name": "ERC1967NonPayable", "type": "error" },
+  { "inputs": [], "name": "FailedCall", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "amountOut", "type": "uint256" },
+      { "internalType": "uint256", "name": "minAmountOut", "type": "uint256" }
+    ],
+    "name": "InsufficientAmountOut",
+    "type": "error"
+  },
+  { "inputs": [], "name": "InvalidAddr", "type": "error" },
+  { "inputs": [], "name": "InvalidAmount", "type": "error" },
+  { "inputs": [], "name": "InvalidInitialization", "type": "error" },
+  { "inputs": [], "name": "InvalidInput", "type": "error" },
+  { "inputs": [], "name": "InvalidNumber", "type": "error" },
+  { "inputs": [], "name": "InvalidOracleConfiguration", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "oracle", "type": "address" }
+    ],
+    "name": "InvalidOraclePrice",
+    "type": "error"
+  },
+  { "inputs": [], "name": "NoValidOracleResponses", "type": "error" },
+  { "inputs": [], "name": "NotImplemented", "type": "error" },
+  { "inputs": [], "name": "NotInitializing", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "deviation", "type": "uint256" },
+      { "internalType": "uint256", "name": "maxAllowed", "type": "uint256" }
+    ],
+    "name": "OraclePriceDeviation",
+    "type": "error"
+  },
+  { "inputs": [], "name": "Paused", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "token", "type": "address" }
+    ],
+    "name": "SafeERC20FailedOperation",
+    "type": "error"
+  },
+  { "inputs": [], "name": "UUPSUnauthorizedCallContext", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "slot", "type": "bytes32" }
+    ],
+    "name": "UUPSUnsupportedProxiableUUID",
+    "type": "error"
+  },
+  { "inputs": [], "name": "Unauthorized", "type": "error" },
+  { "inputs": [], "name": "UnmintOnlyToUnderlying", "type": "error" },
+  { "inputs": [], "name": "YieldAssetNotEnabled", "type": "error" },
+  { "inputs": [], "name": "YieldAssetPaused", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "assetPrice", "type": "uint256" },
+      { "internalType": "uint256", "name": "upperLimit", "type": "uint256" }
+    ],
+    "name": "YieldAssetPriceExceedsThreshold",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint64",
+        "name": "version",
+        "type": "uint64"
+      }
+    ],
+    "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "yieldAsset",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "lstRatio",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "adjustedUSD",
+        "type": "uint256"
+      }
+    ],
+    "name": "LSTRatioApplied",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "yieldAsset",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "threshold",
+        "type": "uint256"
+      }
+    ],
+    "name": "PriceDeviationThresholdSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      }
+    ],
+    "name": "Upgraded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "yieldAsset",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "yieldAssetAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "wrapperTokenAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isUnderlyingAsset",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "yieldAssetUSD",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "wrapperTokenUSD",
+        "type": "uint256"
+      }
+    ],
+    "name": "WrapperTokenMint",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "yieldAsset",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "wrapperTokenAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "unmintAssetAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "WrapperTokenUnmint",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "UPGRADE_INTERFACE_VERSION",
+    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "yieldAsset", "type": "address" }
+    ],
+    "name": "getYieldAssetPriceDeviationThreshold",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_wrapperTokenSettings",
+        "type": "address"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "isUnmintAvailable",
+    "outputs": [
+      { "internalType": "bool", "name": "isAvailable", "type": "bool" },
+      {
+        "internalType": "uint256",
+        "name": "curAmountAvailable",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_yieldAsset", "type": "address" },
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" },
+      { "internalType": "uint256", "name": "_minAmountOut", "type": "uint256" },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "oracleAddress",
+            "type": "address"
+          },
+          { "internalType": "bytes", "name": "payload", "type": "bytes" }
+        ],
+        "internalType": "struct WrapperTokenOperationsTypes.OracleQuery[]",
+        "name": "_oracleQueries",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "mintWrapperToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_yieldAssets",
+        "type": "address[]"
+      },
+      { "internalType": "uint256[]", "name": "_amounts", "type": "uint256[]" },
+      {
+        "internalType": "uint256[]",
+        "name": "_minAmountOuts",
+        "type": "uint256[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "oracleAddress",
+            "type": "address"
+          },
+          { "internalType": "bytes", "name": "payload", "type": "bytes" }
+        ],
+        "internalType": "struct WrapperTokenOperationsTypes.OracleQuery[]",
+        "name": "_oracleQueries",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "multiMintWrapperToken",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "mintedAmounts",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "proxiableUUID",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "yieldAsset", "type": "address" },
+      {
+        "internalType": "uint256",
+        "name": "priceDeviationThresholdPer",
+        "type": "uint256"
+      }
+    ],
+    "name": "setYieldAssetPriceDeviationThreshold",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" },
+      { "internalType": "uint256", "name": "_minAmountOut", "type": "uint256" }
+    ],
+    "name": "unMintWrapperToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newImplementation",
+        "type": "address"
+      },
+      { "internalType": "bytes", "name": "data", "type": "bytes" }
+    ],
+    "name": "upgradeToAndCall",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  }
+]
