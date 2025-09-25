@@ -313,6 +313,7 @@ graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 app-name
 
 - Verify the block explorer API URL is correct
 - Check if the contract is verified on the block explorer
+- Most block explorers work without API keys for occasional CLI usage
 - Try without providing a block explorer URL (the CLI will stop and ask you to provide ABI manually)
 
 **"Invalid contract address format"**

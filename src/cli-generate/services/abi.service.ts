@@ -10,7 +10,7 @@ export class AbiService {
     }
 
     return new Promise((resolve, reject) => {
-      const apiUrl = `${explorerApiUrl}?module=contract&action=getabi&address=${contractAddress}&apikey=YourApiKeyToken`;
+      const apiUrl = `${explorerApiUrl}?module=contract&action=getabi&address=${contractAddress}`;
 
       const url = new URL(apiUrl);
 
