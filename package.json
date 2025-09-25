@@ -2,6 +2,11 @@
   "name": "test",
   "license": "UNLICENSED",
   "scripts": {
+    "generate": "ts-node src/cli-generate/index.ts",
+    "generate:js": "node cli-generate.js",
+    "build-cli": "tsc src/cli-generate/index.ts --outDir dist --target es2020 --module commonjs --resolveJsonModule --esModuleInterop",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "codegen": "graph codegen --output-dir generated/eth-bsc subgraph-eth.yaml && graph codegen --output-dir generated/eth-bsc subgraph-bsc.yaml && graph codegen --output-dir generated/neura subgraph-neura.yaml",
     "build-devnet-eth": "graph build subgraph-eth.yaml --network sepolia-dev",
     "build-testnet-eth": "graph build subgraph-eth.yaml --network sepolia-test",
@@ -46,6 +51,9 @@
     "@graphprotocol/graph-ts": "0.32.0"
   },
   "devDependencies": {
-    "matchstick-as": "0.5.0"
+    "matchstick-as": "0.5.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
   }
 }

@@ -1,0 +1,19 @@
+{
+  "name": "btc",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "create-local": "graph create --node https://deploy-devnet-graph-neura.infra.neuraprotocol.io/ btcn",
+    "remove-local": "graph remove --node https://deploy-devnet-graph-neura.infra.neuraprotocol.io/ btcn",
+    "deploy-local": "graph deploy --network neura --node https://deploy-devnet-graph-neura.infra.neuraprotocol.io/ --ipfs https://ipfs-cluster-devnet-graph-neura.infra.neuraprotocol.io btcn",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.97.1",
+    "@graphprotocol/graph-ts": "0.37.0"
+  },
+  "devDependencies": {
+    "matchstick-as": "0.6.0"
+  }
+}

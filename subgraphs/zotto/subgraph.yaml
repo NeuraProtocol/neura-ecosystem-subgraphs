@@ -1,0 +1,39 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./neura-schema.graphql
+dataSources:
+  - kind: ethereum
+    name: PositionManager
+    network: neura
+    source:
+      abi: PositionManager
+      address: "0x1B3B62B519a60E8927d4FfbB54681871e1Bb6F11"
+      startBlock: 4427155
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - Collect
+        - IncreaseLiquidity
+        - DecreaseLiquidity
+      abis:
+        - name: PositionManager
+          file: ./abis/PositionManager.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Collect(indexed uint256,address,uint256,uint256)
+          handler: handleCollect
+        - event: IncreaseLiquidity(indexed
+            uint256,uint128,uint128,uint256,uint256,address)
+          handler: handleIncreaseLiquidity
+        - event: DecreaseLiquidity(indexed uint256,uint128,uint256,uint256)
+          handler: handleDecreaseLiquidity
+      file: ./src/neura-zotto-position-manager.ts
