@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import * as fs from "fs";
-import * as path from "path";
 import * as readline from "readline";
 import { ValidationService } from "./services/validation.service";
 import { NetworkService } from "./services/network.service";
@@ -16,6 +15,7 @@ import {
   DEFAULT_IPFS_URL,
   DEFAULT_RPC_URL
 } from "./types";
+import { resolveSubgraphDir } from "./utils/path";
 
 // Create logger instance
 const logger = new LoggerService();
@@ -175,7 +175,12 @@ async function main(): Promise<void> {
     }
 
     // Create directory structure
-    const subgraphDir = path.join(process.cwd(), "subgraphs", config.appName);
+    const subgraphDir = resolveSubgraphDir(process.cwd(), config.appName);
+
+    if (!subgraphDir) {
+      logger.error("Invalid app name: path must stay inside the subgraphs directory");
+      process.exit(1);
+    }
 
     if (fs.existsSync(subgraphDir)) {
       logger.error(`Subgraph directory '${config.appName}' already exists`);
@@ -188,16 +193,21 @@ async function main(): Promise<void> {
 
     // Generate template files
     logger.info("📄 Generating template files...");
-    await fileGenerationService.generateTemplateFiles(
-      subgraphDir,
-      config.appName,
-      config.networkName,
-      config.contractAddress,
-      abi,
-      config.startBlock || 0,
-      config.deployNodeUrl!,
-      config.ipfsUrl!
-    );
+    try {
+      await fileGenerationService.generateTemplateFiles(
+        subgraphDir,
+        config.appName,
+        config.networkName,
+        config.contractAddress,
+        abi,
+        config.startBlock || 0,
+        config.deployNodeUrl!,
+        config.ipfsUrl!
+      );
+    } catch (error) {
+      fs.rmSync(subgraphDir, { recursive: true, force: true });
+      throw error;
+    }
 
     logger.success(`✨ Subgraph '${config.appName}' generated successfully!`);
     logger.info(`📁 Location: ${subgraphDir}`);
