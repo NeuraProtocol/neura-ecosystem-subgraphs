@@ -6,8 +6,8 @@ export interface ABIEvent {
 }
 
 export interface ABIInput {
-  indexed: boolean;
-  internalType: string;
+  indexed?: boolean;
+  internalType?: string;
   name: string;
   type: string;
 }

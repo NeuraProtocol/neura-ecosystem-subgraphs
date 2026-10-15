@@ -1,6 +1,7 @@
 # Graph CLI generated artifacts
 build/
 generated/
+dist/
 
 # Dependency directories
 node_modules/

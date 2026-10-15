@@ -1,4 +1,5 @@
 import * as https from "https";
+import * as http from "http";
 import { ABI, ABIEvent, BlockExplorerResponse, Logger } from "../types";
 
 export class AbiService {
@@ -13,16 +14,17 @@ export class AbiService {
       const apiUrl = `${explorerApiUrl}?module=contract&action=getabi&address=${contractAddress}`;
 
       const url = new URL(apiUrl);
+      const client = url.protocol === "https:" ? https : http;
 
       const options = {
         hostname: url.hostname,
-        port: url.port || 443,
+        port: url.port || (url.protocol === "https:" ? 443 : 80),
         path: url.pathname + url.search,
         method: "GET",
         timeout: 15000
       };
 
-      const req = https.request(options, (res) => {
+      const req = client.request(options, (res) => {
         let responseData = "";
 
         res.on("data", (chunk) => {

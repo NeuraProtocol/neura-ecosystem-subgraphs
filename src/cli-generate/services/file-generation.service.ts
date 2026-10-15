@@ -11,8 +11,11 @@ export class FileGenerationService {
     deployNodeUrl: string,
     ipfsUrl: string
   ): PackageJson {
+    const lastPart = appName.split("/").pop() || appName;
+    const sanitizedPackageName =
+      lastPart.toLowerCase().replace(/[^a-z0-9_-]/g, "-") || "subgraph";
     return {
-      name: appName.toLowerCase(),
+      name: sanitizedPackageName,
       license: "UNLICENSED",
       scripts: {
         codegen: "graph codegen",
@@ -118,15 +121,23 @@ ${eventHandlers}
       file: ./src/${appName.toLowerCase().replace(/\//g, "-")}.ts`;
   }
 
+  private getFieldName(input: ABIInput, index: number): string {
+    const raw = (input.name || "").trim();
+    if (!raw) return `param${index}`;
+    if (raw === "id") return "_id";
+    return raw;
+  }
+
   generateSchemaGraphql(abi: ABI): string {
     const events = abi.filter((item) => item.type === "event") as ABIEvent[];
 
     const schemaEntities = events
       .map((event) => {
         const fields = event.inputs
-          .map((input) => {
+          .map((input, index) => {
+            const fieldName = this.getFieldName(input, index);
             const graphqlType = this.mapSolidityTypeToGraphQL(input.type);
-            return `  ${input.name}: ${graphqlType} # ${input.type}`;
+            return `  ${fieldName}: ${graphqlType} # ${input.type}`;
           })
           .join("\n");
 
@@ -157,7 +168,11 @@ ${fields}
     const handlers = events
       .map((event) => {
         const params = event.inputs
-          .map((input) => `  entity.${input.name} = event.params.${input.name}`)
+          .map((input, index) => {
+            const fieldName = this.getFieldName(input, index);
+            const paramAccess = input.name && input.name.trim() ? input.name : `param${index}`;
+            return `  entity.${fieldName} = event.params.${paramAccess}`;
+          })
           .join("\n");
 
         return `export function handle${event.name}(event: ${event.name}Event): void {
@@ -257,6 +272,11 @@ ${handlers}`;
    * Map Solidity types to GraphQL types
    */
   private mapSolidityTypeToGraphQL(solidityType: string): string {
+    if (solidityType.endsWith("[]")) {
+      const baseType = solidityType.slice(0, -2);
+      const baseGraphQL = this.mapSolidityTypeToGraphQL(baseType);
+      return `[${baseGraphQL}]!`;
+    }
     if (solidityType === "address") return "Bytes!";
     if (solidityType.startsWith("uint") || solidityType.startsWith("int")) return "BigInt!";
     if (solidityType === "bool") return "Boolean!";

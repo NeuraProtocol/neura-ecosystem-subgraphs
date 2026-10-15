@@ -4,7 +4,7 @@
     "module": "commonjs",
     "lib": ["es2020"],
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./src/cli-generate",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -21,7 +21,7 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src/cli-generate/**/*"],
   "exclude": ["node_modules", "dist", "build", "generated"],
   "ts-node": {
     "esm": false

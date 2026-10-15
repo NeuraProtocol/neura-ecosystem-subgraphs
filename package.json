@@ -44,7 +44,8 @@
     "deploy-devnet-neura": "graph deploy --network neura --node https://deploy-devnet-graph-neura.infra.neuraprotocol.io/ --ipfs https://ipfs-cluster-devnet-graph-neura.infra.neuraprotocol.io test-neura subgraph-neura.yaml",
     "deploy-testnet-neura": "graph deploy --network neura --node https://deploy-testnet-graph-neura.infra.neuraprotocol.io/ --ipfs https://ipfs-testnet-graph-neura.infra.neuraprotocol.io test-neura subgraph-neura.yaml",
     "deploy-all": "yarn deploy-devnet-eth && yarn deploy-testnet-eth && yarn deploy-bsc && yarn deploy-devnet-neura && yarn deploy-testnet-neura",
-    "test": "graph test"
+    "test": "graph test",
+    "test:unit": "tsc && node --test dist/__tests__/*.test.js"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.87.0",
